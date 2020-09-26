@@ -69,7 +69,7 @@ public class SendEmailTest {
 
     @Test
     void deleteLetterOfSpecificAuthor() {
-        inboxPage.lettersPanelCollection().filterBy(Condition.text("In Bloom")).first();
+        inboxPage.lettersPanelCollection().filterBy(Condition.text("In Bloom")).first().contextClick();
 //        inboxPage.clickOnDeleteButton();
 //        inboxPage.lettersPanelCollection().
 
