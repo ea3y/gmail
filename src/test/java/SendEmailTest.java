@@ -1,11 +1,11 @@
 import com.codeborne.selenide.Condition;
 import com.google.pageobject.*;
 import com.google.pageobject.panels.LeftSidePanel;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Selenide.*;
-import static org.testng.Assert.assertTrue;
+import static com.codeborne.selenide.Selenide.open;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SendEmailTest {
 
@@ -17,7 +17,7 @@ public class SendEmailTest {
     private final SentPage sentPage = new SentPage();
     private final MessagePage messagePage = new MessagePage();
 
-    @BeforeTest
+    @BeforeAll
     void beforeTests() {
         open("https://accounts.google.com/signin/v2/identifier?service=mail");
         signIn.setEmail("automation192020").clickNextButton();
@@ -27,12 +27,12 @@ public class SendEmailTest {
     @Test
     void sendEmail() {
         leftSidePanel.clickComposeButton();
-        newMessagePopUp.newMessagePopup().waitUntil(Condition.appears, 10000);
+        newMessagePopUp.newMessagePopup().waitUntil(Condition.appears, 5000);
         newMessagePopUp.setRecipientEmail("automation192020@gmail.com")
                 .setSubject("Test subj")
                 .setMessage("Lorem ipsum dolor sit amet")
                 .clickSendButton();
-        inboxPage.informationalTooltip().waitUntil(Condition.text("View message"), 10000);
+        inboxPage.informationalTooltip().waitUntil(Condition.text("View message"), 5000);
         inboxPage.informationalTooltip()
                 .waitUntil(Condition.appears, 5000)
                 .shouldHave(Condition.exactText("View message"));
