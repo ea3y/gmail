@@ -1,4 +1,4 @@
-package com.google.pageobject;
+package com.google.pageobject.core.pageObject.pages;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
@@ -11,13 +11,14 @@ import java.util.List;
 import static com.codeborne.selenide.Selenide.*;
 
 public class InboxPage {
-//    private final SelenideElement informationalTooltip = $x("//span[@id='link_vsm']");
+
+    private final SelenideElement leftSidePanel = $x("//div[@class='nH oy8Mbf nn aeN']");
+//    private final SelenideElement leftSidebarPanel = $x("//div[contains(@class, 'nn aeN')]");
+
+
+    //    private final SelenideElement informationalTooltip = $x("//span[@id='link_vsm']");
     private final List<SelenideElement>
         inboxSendersName = $$(By.xpath("//table[@class='F cf zt']/tbody/tr/td[@class='yX xY ']"));
-
-    public SelenideElement informationalTooltip() {
-        return $x("//span[@id='link_vsm']");
-    }
 
     public SelenideElement getConfirmationTextOfDeletedLetter() {
         return $x("//span[@class='bAq']").waitUntil(Condition.appear, 5000);

@@ -1,16 +1,18 @@
 import com.codeborne.selenide.Condition;
-import com.google.pageobject.*;
+import com.google.pageobject.core.base.AbstractPage;
+import com.google.pageobject.core.pageObject.pages.*;
 import com.google.pageobject.panels.LeftSidePanel;
+import com.google.pageobject.panels.NewMessagePopUp;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class SendEmailTest {
+public class SendEmailTest extends AbstractPage {
 
-    private final SignInPage signIn = new SignInPage();
-    private final WelcomePage welcomePage = new WelcomePage();
+//    private final SignInPage signIn = new SignInPage();
+
     private final NewMessagePopUp newMessagePopUp = new NewMessagePopUp();
     private final InboxPage inboxPage = new InboxPage();
     private final LeftSidePanel leftSidePanel = new LeftSidePanel();
@@ -18,24 +20,35 @@ public class SendEmailTest {
     private final MessagePage messagePage = new MessagePage();
 
     @BeforeAll
-    void beforeTests() {
+    static void beforeTests() {
+        final SignInPage signIn = new SignInPage();
+        final WelcomePage welcomePage = new WelcomePage();
+
         open("https://accounts.google.com/signin/v2/identifier?service=mail");
-        signIn.setEmail("automation192020").clickNextButton();
+        signIn.setEmail("automation1920").clickNextButton();
         welcomePage.setPassword("gfhjkzytn123").clickNextButton();
     }
 
     @Test
     void sendEmail() {
-        leftSidePanel.clickComposeButton();
-        newMessagePopUp.newMessagePopup().waitUntil(Condition.appears, 5000);
-        newMessagePopUp.setRecipientEmail("automation192020@gmail.com")
+        getLeftSidePanel().getComposeBtn().click();
+        getNewMessagePopUp()
+                .setRecipientEmail("automation192020@gmail.com")
                 .setSubject("Test subj")
                 .setMessage("Lorem ipsum dolor sit amet")
                 .clickSendButton();
-        inboxPage.informationalTooltip().waitUntil(Condition.text("View message"), 5000);
-        inboxPage.informationalTooltip()
-                .waitUntil(Condition.appears, 5000)
-                .shouldHave(Condition.exactText("View message"));
+        informationalTooltip().shouldHave(Condition.exactText("View message"));
+
+//        leftSidePanel.clickComposeButton();
+//        newMessagePopUp.newMessagePopup().waitUntil(Condition.appears, 5000);
+//        newMessagePopUp.setRecipientEmail("automation192020@gmail.com")
+//                .setSubject("Test subj")
+//                .setMessage("Lorem ipsum dolor sit amet")
+//                .clickSendButton();
+//        inboxPage.informationalTooltip().waitUntil(Condition.text("View message"), 5000);
+//        inboxPage.informationalTooltip()
+//                .waitUntil(Condition.appears, 5000)
+//                .shouldHave(Condition.exactText("View message"));
     }
 
     @Test
