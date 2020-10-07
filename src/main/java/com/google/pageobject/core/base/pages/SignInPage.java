@@ -1,4 +1,4 @@
-package com.google.pageobject.core.pageObject.pages;
+package com.google.pageobject.core.base.pages;
 
 import com.codeborne.selenide.SelenideElement;
 

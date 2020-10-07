@@ -1,6 +1,6 @@
 import com.codeborne.selenide.Condition;
 import com.google.pageobject.core.base.AbstractPage;
-import com.google.pageobject.core.pageObject.pages.*;
+import com.google.pageobject.core.base.pages.*;
 import com.google.pageobject.panels.LeftSidePanel;
 import com.google.pageobject.panels.NewMessagePopUp;
 import org.junit.jupiter.api.BeforeAll;
@@ -10,8 +10,6 @@ import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SendEmailTest extends AbstractPage {
-
-//    private final SignInPage signIn = new SignInPage();
 
     private final NewMessagePopUp newMessagePopUp = new NewMessagePopUp();
     private final InboxPage inboxPage = new InboxPage();
@@ -38,17 +36,6 @@ public class SendEmailTest extends AbstractPage {
                 .setMessage("Lorem ipsum dolor sit amet")
                 .clickSendButton();
         informationalTooltip().shouldHave(Condition.exactText("View message"));
-
-//        leftSidePanel.clickComposeButton();
-//        newMessagePopUp.newMessagePopup().waitUntil(Condition.appears, 5000);
-//        newMessagePopUp.setRecipientEmail("automation192020@gmail.com")
-//                .setSubject("Test subj")
-//                .setMessage("Lorem ipsum dolor sit amet")
-//                .clickSendButton();
-//        inboxPage.informationalTooltip().waitUntil(Condition.text("View message"), 5000);
-//        inboxPage.informationalTooltip()
-//                .waitUntil(Condition.appears, 5000)
-//                .shouldHave(Condition.exactText("View message"));
     }
 
     @Test
