@@ -2,7 +2,7 @@
 allure-results
 build/
 downloads
-.idea/
+.idea
 .allure
 *.iml
 *.log
