@@ -2,32 +2,36 @@ package com.google.pageobject.panels;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-
-import static com.codeborne.selenide.Selenide.$x;
+import org.openqa.selenium.support.FindBy;
 
 public class NewMessagePopUp {
 
-    private final SelenideElement toTextarea = $x("//textarea[@name='to']");
-    private final SelenideElement subjectInput = $x("//input[@name='subjectbox']");
-    private final SelenideElement messageTextarea = $x("//div[@aria-label='Message Body']");
-    private final SelenideElement sendBtn = $x("//div[@class='T-I J-J5-Ji aoO v7 T-I-atl L3']");
+    @FindBy(xpath = "//textarea[@name='to']") private SelenideElement toTextarea;
+    @FindBy(xpath = "//input[@name='subjectbox']") private SelenideElement subjectInput;
+    @FindBy(xpath = "//div[@aria-label='Message Body']") private SelenideElement messageTextarea;
+    @FindBy(xpath = "//div[@class='T-I J-J5-Ji aoO v7 T-I-atl L3']") private SelenideElement sendBtn;
+
 
     public NewMessagePopUp setRecipientEmail(String email) {
-        toTextarea.waitUntil(Condition.appears, 10000).val(email);
+        toTextarea.waitUntil(Condition.appears, 10000).setValue(email);
         return this;
     }
 
     public NewMessagePopUp setSubject(String subject) {
-        subjectInput.val(subject);
+        subjectInput
+                .waitUntil(Condition.appears, 5000)
+                .setValue(subject);
         return this;
     }
 
     public NewMessagePopUp setMessage(String message) {
-        messageTextarea.val(message);
+        messageTextarea
+                .waitUntil(Condition.appears, 5000)
+                .setValue(message);
         return this;
     }
 
     public void clickSendButton() {
-        sendBtn.click();
+        sendBtn.waitUntil(Condition.appears, 5000).click();
     }
 }

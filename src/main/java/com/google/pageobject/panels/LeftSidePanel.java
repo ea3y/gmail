@@ -1,28 +1,22 @@
 package com.google.pageobject.panels;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-
-import java.util.List;
-
-import static com.codeborne.selenide.Selenide.$$x;
-import static com.codeborne.selenide.Selenide.$x;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindBys;
 
 public class LeftSidePanel {
 
-//    private final SelenideElement composeBtn = $x(".//div[@class='T-I T-I-KE L3']");
-    private final SelenideElement sentLink = $x("//div[@data-tooltip='Sent']");
+    @FindBy(xpath = "//div[@data-tooltip='Sent']") private SelenideElement sentLink;
+    @FindBy(xpath = "//div[@class='T-I T-I-KE L3']") private SelenideElement composeBtn;
+    @FindBys(@FindBy(xpath = "//div[@class='byl']//div[contains(@class, 'aim')]"))
+    private ElementsCollection mainMenuItems;
 
 
-    public SelenideElement getComposeBtn() {
-        return $x(".//div[@class='T-I T-I-KE L3']");
+    public void composeButtonClick() {
+        composeBtn.waitUntil(Condition.appears, 5000).click();
     }
-
-    private final List<SelenideElement> mainMenuItems = $$x("//div[@class='byl']//div[contains(@class, 'aim')]");
-
-//    public void clickComposeButton() {
-//        composeBtn.waitUntil(Condition.appears, 5000).click();
-//    }
 
     public void clickSentLink() {
         sentLink.waitUntil(Condition.appears, 5000).click();

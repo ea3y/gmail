@@ -1,84 +1,51 @@
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
-import com.google.pageobject.core.base.AbstractPage;
-import com.google.pageobject.core.base.pages.*;
+import com.google.pageobject.pages.*;
 import com.google.pageobject.panels.LeftSidePanel;
 import com.google.pageobject.panels.NewMessagePopUp;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.page;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class SendEmailTest extends AbstractPage {
+public class SendEmailTest {
 
-    private final NewMessagePopUp newMessagePopUp = new NewMessagePopUp();
-    private final InboxPage inboxPage = new InboxPage();
     private final LeftSidePanel leftSidePanel = new LeftSidePanel();
     private final SentPage sentPage = new SentPage();
     private final MessagePage messagePage = new MessagePage();
 
     @BeforeAll
     static void beforeTests() {
-        final SignInPage signIn = new SignInPage();
-        final WelcomePage welcomePage = new WelcomePage();
 
         open("https://accounts.google.com/signin/v2/identifier?service=mail");
-        signIn.setEmail("automation1920").clickNextButton();
+        final SignInPage signIn = page(SignInPage.class);
+        final WelcomePage welcomePage = page(WelcomePage.class);
+
+        signIn.setEmail("automation192020").clickNextButton();
         welcomePage.setPassword("gfhjkzytn123").clickNextButton();
     }
 
     @Test
     void sendEmail() {
-        getLeftSidePanel().getComposeBtn().click();
-        getNewMessagePopUp()
+        final InboxPage inboxPage = page(InboxPage.class);
+        final LeftSidePanel leftSidePanel = page(LeftSidePanel.class);
+        final NewMessagePopUp newMessagePopUp = page(NewMessagePopUp.class);
+
+        leftSidePanel.composeButtonClick();
+        newMessagePopUp
                 .setRecipientEmail("automation192020@gmail.com")
                 .setSubject("Test subj")
                 .setMessage("Lorem ipsum dolor sit amet")
                 .clickSendButton();
-        informationalTooltip().shouldHave(Condition.exactText("View message"));
-    }
-
-    @Test
-    void checkTheMessageHasCorrectInformation() {
-        inboxPage.openMessage();
-        messagePage.getTitleOfMessage().shouldHave(Condition.text("Test subj"));
-
-    }
-
-    @Test
-    void inboxShouldHaveSendersName() {
-        assertTrue(inboxPage.getNamesOfSenders().get(0).contains("me"));
-//        inboxPage.elemCollection().filterBy(Condition.text("me")).shouldHave(CollectionCondition.texts("me", "me", "me"));
-    }
-
-    @Test
-    void sentShouldHaveRecipientsName() {
-        leftSidePanel.clickSentLink();
-        assertTrue(sentPage.getNamesOfSenders().get(0).contains("me"));
-    }
-
-    @Test
-    void deleteReceivedMessage() {
+        inboxPage.informationalTooltip().shouldHave(Condition.exactText("View message"));
+        inboxPage.getNamesOfSenders().shouldHave(CollectionCondition.texts("me"));
         inboxPage.selectCheckBox()
                 .clickOnDeleteButton()
                 .getConfirmationTextOfDeletedLetter()
                 .shouldHave(Condition.text("Conversation moved to Bin"))
                 .waitUntil(Condition.disappear, 10000);
-//        inboxPage.elemCollection().filterBy(Condition.text("me")).shouldHave(CollectionCondition.size(0));
     }
-
-    @Test
-    void deleteLetterOfSpecificAuthor() {
-        inboxPage.lettersPanelCollection().filterBy(Condition.text("In Bloom")).first().contextClick();
-//        inboxPage.clickOnDeleteButton();
-//        inboxPage.lettersPanelCollection().
-
-        try {
-            Thread.sleep(15000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
 
 }
