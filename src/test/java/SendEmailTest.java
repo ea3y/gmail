@@ -1,5 +1,6 @@
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
+import com.github.javafaker.Faker;
 import com.google.pageobject.pages.*;
 import com.google.pageobject.panels.LeftSidePanel;
 import com.google.pageobject.panels.NewMessagePopUp;
@@ -27,12 +28,15 @@ public class SendEmailTest {
         final InboxPage inboxPage = page(InboxPage.class);
         final LeftSidePanel leftSidePanel = page(LeftSidePanel.class);
         final NewMessagePopUp newMessagePopUp = page(NewMessagePopUp.class);
+        final Faker faker = new Faker();
 
+        String letterTittle = faker.book().title();
+        String letterSubject = faker.shakespeare().asYouLikeItQuote();
         leftSidePanel.composeButtonClick();
         newMessagePopUp
                 .setRecipientEmail("automation192020@gmail.com")
-                .setSubject("Test subj")
-                .setMessage("Lorem ipsum dolor sit amet")
+                .setSubject(letterTittle)
+                .setMessage(letterSubject)
                 .clickSendButton();
         inboxPage.informationalTooltip().shouldHave(Condition.exactText("View message"));
         inboxPage.getNamesOfSenders().shouldHave(CollectionCondition.texts("me"));
