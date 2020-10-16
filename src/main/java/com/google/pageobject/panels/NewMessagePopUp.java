@@ -6,10 +6,14 @@ import org.openqa.selenium.support.FindBy;
 
 public class NewMessagePopUp {
 
-    @FindBy(xpath = "//textarea[@name='to']") private SelenideElement toTextarea;
-    @FindBy(xpath = "//input[@name='subjectbox']") private SelenideElement subjectInput;
-    @FindBy(xpath = "//div[@aria-label='Message Body']") private SelenideElement messageTextarea;
-    @FindBy(xpath = "//div[@class='T-I J-J5-Ji aoO v7 T-I-atl L3']") private SelenideElement sendBtn;
+    @FindBy(xpath = "//textarea[@name='to']")
+    private SelenideElement toTextarea;
+    @FindBy(xpath = "//input[@name='subjectbox']")
+    private SelenideElement subjectInput;
+    @FindBy(xpath = "//div[@aria-label='Message Body']")
+    private SelenideElement messageTextarea;
+    @FindBy(xpath = "//div[@class='T-I J-J5-Ji aoO v7 T-I-atl L3']")
+    private SelenideElement sendBtn;
 
 
     public NewMessagePopUp setRecipientEmail(String email) {

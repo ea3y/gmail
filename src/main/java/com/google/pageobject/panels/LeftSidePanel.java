@@ -8,8 +8,10 @@ import org.openqa.selenium.support.FindBys;
 
 public class LeftSidePanel {
 
-    @FindBy(xpath = "//div[@data-tooltip='Sent']") private SelenideElement sentLink;
-    @FindBy(xpath = "//div[@class='T-I T-I-KE L3']") private SelenideElement composeBtn;
+    @FindBy(xpath = "//div[@data-tooltip='Sent']")
+    private SelenideElement sentLink;
+    @FindBy(xpath = "//div[@class='T-I T-I-KE L3']")
+    private SelenideElement composeBtn;
     @FindBys(@FindBy(xpath = "//div[@class='byl']//div[contains(@class, 'aim')]"))
     private ElementsCollection mainMenuItems;
 

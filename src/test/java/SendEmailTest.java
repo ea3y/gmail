@@ -8,13 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.page;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SendEmailTest {
-
-    private final LeftSidePanel leftSidePanel = new LeftSidePanel();
-    private final SentPage sentPage = new SentPage();
-    private final MessagePage messagePage = new MessagePage();
 
     @BeforeAll
     static void beforeTests() {
@@ -41,11 +36,10 @@ public class SendEmailTest {
                 .clickSendButton();
         inboxPage.informationalTooltip().shouldHave(Condition.exactText("View message"));
         inboxPage.getNamesOfSenders().shouldHave(CollectionCondition.texts("me"));
-        inboxPage.selectCheckBox()
+        inboxPage.selectLetterCheckbox(true)
                 .clickOnDeleteButton()
                 .getConfirmationTextOfDeletedLetter()
                 .shouldHave(Condition.text("Conversation moved to Bin"))
-                .waitUntil(Condition.disappear, 10000);
+                .waitUntil(Condition.disappear, 15000);
     }
-
 }

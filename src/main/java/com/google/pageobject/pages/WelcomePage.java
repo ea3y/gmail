@@ -6,8 +6,10 @@ import org.openqa.selenium.support.FindBy;
 
 public class WelcomePage {
 
-    @FindBy(name = "password") private SelenideElement passwordInput;
-    @FindBy(id = "passwordNext") private SelenideElement nextBtn;
+    @FindBy(name = "password")
+    private SelenideElement passwordInput;
+    @FindBy(id = "passwordNext")
+    private SelenideElement nextBtn;
 
     public WelcomePage setPassword(String password) {
         passwordInput.waitUntil(Condition.appears, 5000).setValue(password);

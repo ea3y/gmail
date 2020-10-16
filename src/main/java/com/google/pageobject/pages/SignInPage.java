@@ -5,8 +5,10 @@ import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
 
 public class SignInPage {
-    @FindBy(id = "identifierId") private SelenideElement emailOrPhoneInput;
-    @FindBy(id = "identifierNext") private SelenideElement nextBtn;
+    @FindBy(id = "identifierId")
+    private SelenideElement emailOrPhoneInput;
+    @FindBy(id = "identifierNext")
+    private SelenideElement nextBtn;
 
     public SignInPage setEmail(String emailOrPhone) {
         emailOrPhoneInput.setValue(emailOrPhone);

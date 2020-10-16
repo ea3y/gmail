@@ -14,9 +14,10 @@ import static com.codeborne.selenide.Selenide.*;
 
 public class SentPage {
 
-    @FindBys(@FindBy(xpath = "//div[contains(text(), 'To:')]/span")) private ElementsCollection recipientsName;
+    @FindBys(@FindBy(xpath = "//div[contains(text(), 'To:')]/span"))
+    private ElementsCollection recipientsName;
 
-    public List<String> getNamesOfSenders() {
+    public List<String> getSendersNames() {
         $(By.xpath("//div[@aria-label='Primary']")).waitUntil(Condition.disappears, 5000);
         List<String> text = new ArrayList<>();
         for (SelenideElement element : recipientsName) {
