@@ -12,8 +12,15 @@ public class NewMessagePopUp {
     private SelenideElement subjectInput;
     @FindBy(xpath = "//div[@aria-label='Message Body']")
     private SelenideElement messageTextarea;
-    @FindBy(xpath = "//div[@class='T-I J-J5-Ji aoO v7 T-I-atl L3']")
+    @FindBy(xpath = "//div[contains(@data-tooltip, 'Send')]")
     private SelenideElement sendBtn;
+
+    public void sentMessage(String email, String subject, String message) {
+        setRecipientEmail(email)
+                .setSubject(subject)
+                .setMessage(message)
+                .clickSendButton();
+    }
 
 
     public NewMessagePopUp setRecipientEmail(String email) {

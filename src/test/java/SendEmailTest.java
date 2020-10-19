@@ -2,13 +2,11 @@ import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.github.javafaker.Faker;
 import com.google.pageobject.pages.*;
-import com.google.pageobject.panels.LeftSidePanel;
-import com.google.pageobject.panels.NewMessagePopUp;
+import com.google.pageobject.panels.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.Selenide.page;
+import static com.codeborne.selenide.Selenide.*;
 
 public class SendEmailTest {
 
@@ -19,7 +17,7 @@ public class SendEmailTest {
         final SignInPage signIn = page(SignInPage.class);
         final WelcomePage welcomePage = page(WelcomePage.class);
 
-        signIn.setEmail("automation192020").clickNextButton();
+        signIn.setEmail("automation192020").clickNextButton(); // new mail vistaja20@gmail.com
         welcomePage.setPassword("gfhjkzytn123").clickNextButton();
     }
 
@@ -28,22 +26,67 @@ public class SendEmailTest {
         final InboxPage inboxPage = page(InboxPage.class);
         final LeftSidePanel leftSidePanel = page(LeftSidePanel.class);
         final NewMessagePopUp newMessagePopUp = page(NewMessagePopUp.class);
+        final ContextMenu contexMenu = page(ContextMenu.class);
+        final MailToolPanel mailToolPanel = page(MailToolPanel.class);
         final Faker faker = new Faker();
 
-        String letterTittle = faker.book().title();
-        String letterSubject = faker.shakespeare().asYouLikeItQuote();
+        String letterSubject = faker.book().title();
+        String letterBody = faker.shakespeare().asYouLikeItQuote();
         leftSidePanel.composeButtonClick();
         newMessagePopUp
                 .setRecipientEmail("automation192020@gmail.com")
-                .setSubject(letterTittle)
-                .setMessage(letterSubject)
+                .setSubject(letterSubject)
+                .setMessage(letterBody)
                 .clickSendButton();
         inboxPage.informationalTooltip().shouldHave(Condition.exactText("View message"));
         inboxPage.getNamesOfSenders().shouldHave(CollectionCondition.texts("me"));
         inboxPage.selectLetterCheckbox(true)
                 .clickOnDeleteButton()
-                .getConfirmationTextOfDeletedLetter()
+                .getConfirmationToolTip()
                 .shouldHave(Condition.text("Conversation moved to Bin"))
                 .waitUntil(Condition.disappear, 15000);
+    }
+
+    @Test
+    void replyToLetter() {
+        final SignInPage signIn = page(SignInPage.class);
+        final WelcomePage welcomePage = page(WelcomePage.class);
+        final InboxPage inboxPage = page(InboxPage.class);
+        final LeftSidePanel leftSidePanel = page(LeftSidePanel.class);
+        final NewMessagePopUp newMessagePopUp = page(NewMessagePopUp.class);
+        final ContextMenu contexMenu = page(ContextMenu.class);
+        final GoogleAccountPanel googleAccountPanel = page(GoogleAccountPanel.class);
+        final MailToolPanel mailToolPanel = page(MailToolPanel.class);
+        final MessagePage messagePage = page(MessagePage.class);
+        final Faker faker = new Faker();
+
+        String letterSubject = faker.book().title();
+        String letterBody = faker.shakespeare().asYouLikeItQuote();
+        String replyLetterBody = faker.chuckNorris().fact();
+        leftSidePanel.composeButtonClick();
+        newMessagePopUp.sentMessage("vistaja20@gmail.com", letterSubject, letterBody);
+        inboxPage.informationalTooltip().shouldHave(Condition.exactText("View message"));
+        inboxPage.clickOnGoogleAccountButton();
+        googleAccountPanel.clickOnAddAnotherAccountButton();
+        switchTo().window("Gmail");
+        signIn.setEmail("vistaja20@gmail.com").clickNextButton();
+        welcomePage.setPassword("gfhjkzytn123").clickNextButton();
+        mailToolPanel
+                .clickOnRefreshButton()
+                .contextClickBySubject(letterSubject)
+                .clickOnMenuItem("Reply");
+        newMessagePopUp
+                .setMessage(replyLetterBody)
+                .clickSendButton();
+        inboxPage.getConfirmationToolTip().shouldHave(Condition.exactText("Message sent."));
+        inboxPage.clickOnGoogleAccountButton();
+        googleAccountPanel.clickOnAccountByEmail("automation192020@gmail.com");
+        switchTo().window(2);
+        mailToolPanel
+                .clickOnRefreshButton()
+                .openLetterBySubject(letterSubject);
+        messagePage.getMessagePanels()
+                .shouldHave(CollectionCondition.texts(letterBody, replyLetterBody));
+
     }
 }
