@@ -8,10 +8,12 @@ import org.openqa.selenium.support.FindBys;
 
 public class LeftSidePanel {
 
-    @FindBy(xpath = "//div[@data-tooltip='Sent']")
-    private SelenideElement sentLink;
-    @FindBy(xpath = "//div[@class='T-I T-I-KE L3']")
+    @FindBy(xpath = "//div[@jscontroller='eIu7Db']")
     private SelenideElement composeBtn;
+    @FindBy(xpath = "//div[@data-tooltip='Sent']")
+    private SelenideElement sentButton;
+    @FindBy(xpath = "//div[@data-tooltip='Starred']")
+    private SelenideElement starredButton;
     @FindBys(@FindBy(xpath = "//div[@class='byl']//div[contains(@class, 'aim')]"))
     private ElementsCollection mainMenuItems;
 
@@ -20,7 +22,11 @@ public class LeftSidePanel {
         composeBtn.waitUntil(Condition.appears, 5000).click();
     }
 
-    public void clickSentLink() {
-        sentLink.waitUntil(Condition.appears, 5000).click();
+    public void clickSentButton() {
+        sentButton.waitUntil(Condition.appears, 5000).click();
+    }
+
+    public void clickStarredButton() {
+        starredButton.waitUntil(Condition.appears, 5000).click();
     }
 }

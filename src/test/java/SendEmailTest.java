@@ -73,7 +73,7 @@ public class SendEmailTest {
         welcomePage.setPassword("gfhjkzytn123").clickNextButton();
         mailToolPanel
                 .clickOnRefreshButton()
-                .contextClickBySubject(letterSubject)
+                .contextClickByLetterSubject(letterSubject)
                 .clickOnMenuItem("Reply");
         newMessagePopUp
                 .setMessage(replyLetterBody)
@@ -87,6 +87,42 @@ public class SendEmailTest {
                 .openLetterBySubject(letterSubject);
         messagePage.getMessagePanels()
                 .shouldHave(CollectionCondition.texts(letterBody, replyLetterBody));
+    }
+
+    @Test
+    void markLetterAsStarred() {
+        final InboxPage inboxPage = page(InboxPage.class);
+        final SignInPage signIn = page(SignInPage.class);
+        final WelcomePage welcomePage = page(WelcomePage.class);
+        final LeftSidePanel leftSidePanel = page(LeftSidePanel.class);
+        final NewMessagePopUp newMessagePopUp = page(NewMessagePopUp.class);
+        final StarredPage starredPage = page(StarredPage.class);
+        final GoogleAccountPanel googleAccountPanel = page(GoogleAccountPanel.class);
+        final MailToolPanel mailToolPanel = page(MailToolPanel.class);
+
+        final Faker faker = new Faker();
+
+        String letterSubject = faker.book().title();
+        String letterBody = faker.shakespeare().asYouLikeItQuote();
+        leftSidePanel.composeButtonClick();
+        newMessagePopUp
+                .setRecipientEmail("vistaja20@gmail.com")
+                .setSubject(letterSubject)
+                .setMessage(letterBody)
+                .clickSendButton();
+        inboxPage.clickOnGoogleAccountButton();
+        googleAccountPanel.clickOnAddAnotherAccountButton();
+        switchTo().window(1);
+        signIn.setEmail("vistaja20@gmail.com").clickNextButton();
+        welcomePage.setPassword("gfhjkzytn123").clickNextButton();
+        mailToolPanel.clickOnRefreshButton()
+                .setStarByLetterSubject(letterSubject, true);
+        leftSidePanel.clickStarredButton();
+        inboxPage.getSubjects().shouldHave(CollectionCondition.texts(letterSubject));
+        inboxPage.setStarByLetterSubject(letterSubject, false);
+        starredPage.getInformationalText().shouldHave(Condition.exactText("No starred messages. " +
+                "Stars let you give messages a special status to make them easier to find. " +
+                "To star a message, click on the star outline beside any message or conversation."));
 
     }
 }

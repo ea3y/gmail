@@ -20,12 +20,10 @@ public class InboxPage {
     private SelenideElement leftSidePanel;
     @FindBys(@FindBy(xpath = "//td[@class='yX xY ']"))
     private ElementsCollection inboxSendersName;
-    @FindBys(@FindBy(xpath = "//span[@class='bog']"))
+    @FindBys(@FindBy(xpath = "//div[@role='main']//span[@class='bog']"))
     private ElementsCollection inboxTitlesOfSubjects;
     @FindBy(xpath = "//span[@class='bAq']")
     private SelenideElement confirmationToolTip;
-    @FindBys(@FindBy(xpath = "//td[contains(@class, 'yX xY')]"))
-    private ElementsCollection sendersNames;
     @FindBys(@FindBy(xpath = "//table[@class='F cf zt']/tbody/tr"))
     private ElementsCollection lettersPanels;
     @FindBy(xpath = "//div[@dir='ltr']")
@@ -37,10 +35,6 @@ public class InboxPage {
         return confirmationToolTip.waitUntil(Condition.appears, 10000);
     }
 
-    public ElementsCollection getSendersNames() {
-        return sendersNames;
-    }
-
     public ElementsCollection getLettersPanels() {
         return lettersPanels;
     }
@@ -50,10 +44,14 @@ public class InboxPage {
         return inboxSendersName;
     }
 
-    public ContextMenu contextClickBySubject(String subject) {
+    public ContextMenu contextClickByLetterSubject(String subject) {
         inboxTitlesOfSubjects.filter(Condition.text(subject)).first()
                 .waitUntil(Condition.appears, 10000).contextClick();
         return page(ContextMenu.class);
+    }
+
+    public ElementsCollection getSubjects() {
+        return inboxTitlesOfSubjects;
     }
 
     public InboxPage openLetterBySubject(String title) {
@@ -88,6 +86,35 @@ public class InboxPage {
     public InboxPage clickOnGoogleAccountButton() {
         googleAccountButton.waitUntil(Condition.appears, 5000).click();
         return this;
+    }
+
+//    public void markStarredLetterBySubject(String title) {
+//        inboxTitlesOfSubjects.filter(Condition.text(title)).first()
+//                .waitUntil(Condition.appears, 10000)
+//                .find(By.xpath("./ancestor::td/..//span[@aria-label='Not starred']")).click();
+//    }
+
+    public MailToolPanel setStarByLetterSubject(String title, boolean status) {
+        if(status) {
+            if (Objects.equals(inboxTitlesOfSubjects.filter(Condition.text(title)).first()
+                    .waitUntil(Condition.appears, 10000)
+                    .find(By.xpath("./ancestor::td/..//span[@aria-label='Not starred']"))
+                    .attr("aria-label"), "Not starred")) {
+                inboxTitlesOfSubjects.filter(Condition.text(title)).first()
+                        .waitUntil(Condition.appears, 10000)
+                        .find(By.xpath("./ancestor::td/..//span[@aria-label='Not starred']")).click();
+            }
+        } else {
+            if (Objects.equals(inboxTitlesOfSubjects.filter(Condition.text(title)).first()
+                    .waitUntil(Condition.appears, 10000)
+                    .find(By.xpath("./ancestor::td/..//span[@aria-label='Starred']"))
+                    .attr("aria-label"), "Starred")) {
+                inboxTitlesOfSubjects.filter(Condition.text(title)).first()
+                        .waitUntil(Condition.appears, 10000)
+                        .find(By.xpath("./ancestor::td/..//span[@aria-label='Starred']")).click();
+            }
+        }
+        return new MailToolPanel();
     }
 
     private void clickOnCheckbox() {
