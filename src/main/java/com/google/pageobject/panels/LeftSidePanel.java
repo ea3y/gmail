@@ -14,9 +14,8 @@ public class LeftSidePanel {
     private SelenideElement sentButton;
     @FindBy(xpath = "//div[@data-tooltip='Starred']")
     private SelenideElement starredButton;
-    @FindBys(@FindBy(xpath = "//div[@class='byl']//div[contains(@class, 'aim')]"))
-    private ElementsCollection mainMenuItems;
-
+    @FindBy(xpath = "//div[@data-tooltip='Drafts']")
+    private SelenideElement draftButton;
 
     public void composeButtonClick() {
         composeBtn.waitUntil(Condition.appears, 5000).click();
@@ -28,5 +27,9 @@ public class LeftSidePanel {
 
     public void clickStarredButton() {
         starredButton.waitUntil(Condition.appears, 5000).click();
+    }
+
+    public void clickDraftButton() {
+        draftButton.waitUntil(Condition.appears, 5000).click();
     }
 }

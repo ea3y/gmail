@@ -5,6 +5,7 @@ import com.google.pageobject.pages.*;
 import com.google.pageobject.panels.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.InvalidSelectorException;
 
 import static com.codeborne.selenide.Selenide.*;
 
@@ -40,7 +41,7 @@ public class SendEmailTest {
                 .clickSendButton();
         inboxPage.informationalTooltip().shouldHave(Condition.exactText("View message"));
         inboxPage.getNamesOfSenders().shouldHave(CollectionCondition.texts("me"));
-        inboxPage.selectLetterCheckbox(true)
+        inboxPage.setCheckboxByLetterSubject(letterSubject,true)
                 .clickOnDeleteButton()
                 .getConfirmationToolTip()
                 .shouldHave(Condition.text("Conversation moved to Bin"))
@@ -99,7 +100,6 @@ public class SendEmailTest {
         final StarredPage starredPage = page(StarredPage.class);
         final GoogleAccountPanel googleAccountPanel = page(GoogleAccountPanel.class);
         final MailToolPanel mailToolPanel = page(MailToolPanel.class);
-
         final Faker faker = new Faker();
 
         String letterSubject = faker.book().title();
@@ -123,6 +123,45 @@ public class SendEmailTest {
         starredPage.getInformationalText().shouldHave(Condition.exactText("No starred messages. " +
                 "Stars let you give messages a special status to make them easier to find. " +
                 "To star a message, click on the star outline beside any message or conversation."));
+
+    }
+
+    @Test
+    void moveLetterToAnotherFolder() {
+        final LeftSidePanel leftSidePanel = page(LeftSidePanel.class);
+        final NewMessagePopUp newMessagePopUp = page(NewMessagePopUp.class);
+
+        leftSidePanel.composeButtonClick();
+        newMessagePopUp.clickSendButton();
+        newMessagePopUp.getErrorPopup().shouldBe(Condition.visible);
+        newMessagePopUp.getTextOfErrorPopup().shouldHave(Condition.text("Please specify at least one recipient."));
+    }
+
+    @Test
+    void saveUnsendedLetterToDraft() {
+        final InboxPage inboxPage = page(InboxPage.class);
+        final LeftSidePanel leftSidePanel = page(LeftSidePanel.class);
+        final NewMessagePopUp newMessagePopUp = page(NewMessagePopUp.class);
+        final MailToolPanel mailToolPanel = page(MailToolPanel.class);
+        final DraftPage draftPage = page(DraftPage.class);
+        final Faker faker = new Faker();
+
+        String letterSubject = faker.book().title();
+        String letterBody = faker.shakespeare().asYouLikeItQuote();
+        leftSidePanel.composeButtonClick();
+        newMessagePopUp
+                .setRecipientEmail("vistaja20@gmail.com")
+                .setSubject(letterSubject)
+                .setMessage(letterBody).getTextOfPanel()
+                .shouldBe(Condition.text("Draft saved"));
+        newMessagePopUp.clickOnClosePopupButton();
+        leftSidePanel.clickDraftButton();
+        inboxPage.getLabelOfThePanelByItsSubject(letterSubject).shouldBe(Condition.text("Draft"));
+        inboxPage.setCheckboxByLetterSubject(letterSubject, true);
+        mailToolPanel.clickOnDiscardDraftsButton();
+        draftPage.getInformationalText()
+                .shouldBe(Condition.text("You don't have any saved drafts.\n" +
+                "Saving a draft allows you to keep a message you aren't ready to send yet."));
 
     }
 }

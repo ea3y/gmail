@@ -11,7 +11,11 @@ public class MailToolPanel {
     @FindBy(xpath = "//div[@class='aeH']//div[contains(@class, 'nu')]")
     private static SelenideElement refreshButton;
     @FindBy(xpath = "//div[@act='10']")
-    private static SelenideElement deleteBtn;
+    private static SelenideElement deleteButton;
+    @FindBy(xpath = "//div[@data-tooltip='Move to']")
+    private SelenideElement moveToButton;
+    @FindBy(xpath = "//div[@class='Bn']")
+    private SelenideElement discardDraftsButton;
 
     public InboxPage clickOnRefreshButton() {
         refreshButton.waitUntil(Condition.appears, 10000).click();
@@ -19,9 +23,17 @@ public class MailToolPanel {
     }
 
     public InboxPage clickOnDeleteButton() {
-        deleteBtn.waitUntil(Condition.appears, 5000).click();
+        deleteButton.waitUntil(Condition.appears, 5000).click();
         return page(InboxPage.class);
     }
 
+    public InboxPage clickOnMoveToButton() {
+        moveToButton.waitUntil(Condition.appears, 5000).click();
+        return page(InboxPage.class);
+    }
+
+    public void clickOnDiscardDraftsButton() {
+        discardDraftsButton.waitUntil(Condition.appears, 5000).click();
+    }
 
 }

@@ -60,23 +60,32 @@ public class InboxPage {
         return this;
     }
 
-    public MailToolPanel selectLetterCheckbox(boolean status) {
+    public MailToolPanel setCheckboxByLetterSubject(String title, boolean status) {
         if(status) {
-            if (Objects.equals(letterCheckbox.attr("aria-checked"), "false")) {
-                clickOnCheckbox();
+            if (Objects.equals(inboxTitlesOfSubjects.filter(Condition.text(title)).first()
+                    .waitUntil(Condition.appears, 10000)
+                    .find(By.xpath("./ancestor::td/..//div[@aria-checked='false']"))
+                    .attr("aria-checked"), "false")) {
+                inboxTitlesOfSubjects.filter(Condition.text(title)).first()
+                        .waitUntil(Condition.appears, 10000)
+                        .find(By.xpath("./ancestor::td/..//div[@aria-checked='false']")).click();
             }
         } else {
-            if (Objects.equals(letterCheckbox.attr("aria-checked"), "true")) {
-                clickOnCheckbox();
+            if (Objects.equals(inboxTitlesOfSubjects.filter(Condition.text(title)).first()
+                    .waitUntil(Condition.appears, 10000)
+                    .find(By.xpath("./ancestor::td/..//div[@aria-checked='true']"))
+                    .attr("aria-checked"), "true")) {
+                inboxTitlesOfSubjects.filter(Condition.text(title)).first()
+                        .waitUntil(Condition.appears, 10000)
+                        .find(By.xpath("./ancestor::td/..//div[@aria-checked='true']")).click();
             }
         }
         return new MailToolPanel();
     }
 
-    public InboxPage openMessageByAuthorName(String name) {
-        $(By.xpath("//div[@class='yW']//span[@name='" + name + "']"))
-                .waitUntil(Condition.appears, 5000).click();
-        return this;
+    public SelenideElement getLetterByItsSubject(String subject) {
+        return inboxTitlesOfSubjects.filter(Condition.text(subject)).first()
+                .waitUntil(Condition.appears, 15000);
     }
 
     public SelenideElement informationalTooltip() {
@@ -87,12 +96,6 @@ public class InboxPage {
         googleAccountButton.waitUntil(Condition.appears, 5000).click();
         return this;
     }
-
-//    public void markStarredLetterBySubject(String title) {
-//        inboxTitlesOfSubjects.filter(Condition.text(title)).first()
-//                .waitUntil(Condition.appears, 10000)
-//                .find(By.xpath("./ancestor::td/..//span[@aria-label='Not starred']")).click();
-//    }
 
     public MailToolPanel setStarByLetterSubject(String title, boolean status) {
         if(status) {
@@ -117,8 +120,11 @@ public class InboxPage {
         return new MailToolPanel();
     }
 
-    private void clickOnCheckbox() {
-        letterCheckbox.waitUntil(Condition.appears, 5000).click();
+    public SelenideElement getLabelOfThePanelByItsSubject(String subject) {
+        return inboxTitlesOfSubjects.filter(Condition.text(subject)).first()
+                .waitUntil(Condition.appears, 10000)
+                .find(By.xpath("./ancestor::td/..//td[@class='yX xY ']"));
     }
+
 
 }
