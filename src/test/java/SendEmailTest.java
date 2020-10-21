@@ -171,12 +171,10 @@ public class SendEmailTest {
         final SelectTabToEnablePopup tabSettingsPopup = page(SelectTabToEnablePopup.class);
 
         inboxPage.clickOnInboxSettingsLink();
-        tabSettingsPopup.setCheckboxByTabName("Updates", true);
-        tabSettingsPopup.clickSaveButton();
+        tabSettingsPopup.setCheckboxByTabName("Updates", true).clickSaveButton();
         tabSettingsPopup.getTabs().shouldHave(CollectionCondition.texts("Primary", "Social", "Promotions", "Updates"));
         inboxPage.clickOnInboxSettingsLink();
-        tabSettingsPopup.setCheckboxByTabName("Updates", false);
-        tabSettingsPopup.clickSaveButton();
+        tabSettingsPopup.setCheckboxByTabName("Updates", false).clickSaveButton();
         tabSettingsPopup.getTabs().shouldHave(CollectionCondition.texts("Primary", "Social", "Promotions"));
     }
 }
