@@ -126,5 +126,8 @@ public class InboxPage {
                 .find(By.xpath("./ancestor::td/..//td[@class='yX xY ']"));
     }
 
+    public void clickOnInboxSettingsLink() {
+        $(By.xpath("//span[@class='aRq']")).waitUntil(Condition.appears, 10000).click();
+    }
 
 }

@@ -164,4 +164,19 @@ public class SendEmailTest {
                 "Saving a draft allows you to keep a message you aren't ready to send yet."));
 
     }
+
+    @Test
+    void addAndRemoveUpdatesTab() {
+        final InboxPage inboxPage = page(InboxPage.class);
+        final SelectTabToEnablePopup tabSettingsPopup = page(SelectTabToEnablePopup.class);
+
+        inboxPage.clickOnInboxSettingsLink();
+        tabSettingsPopup.setCheckboxByTabName("Updates", true);
+        tabSettingsPopup.clickSaveButton();
+        tabSettingsPopup.getTabs().shouldHave(CollectionCondition.texts("Primary", "Social", "Promotions", "Updates"));
+        inboxPage.clickOnInboxSettingsLink();
+        tabSettingsPopup.setCheckboxByTabName("Updates", false);
+        tabSettingsPopup.clickSaveButton();
+        tabSettingsPopup.getTabs().shouldHave(CollectionCondition.texts("Primary", "Social", "Promotions"));
+    }
 }
