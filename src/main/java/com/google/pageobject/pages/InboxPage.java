@@ -30,6 +30,22 @@ public class InboxPage {
     private SelenideElement letterCheckbox;
     @FindBy(xpath = "//header[@id='gb']//div[contains(@class, 'gb_Wa')]")
     private SelenideElement googleAccountButton;
+    @FindBy (xpath = "//div[@class='vh']")
+    private SelenideElement confirmationalToolTip;
+
+    public InboxPage checkConfirmationTooltipText(String expectedText) {
+        confirmationalToolTip.waitUntil(Condition.appears, 7000)
+                .shouldHave(Condition.text(expectedText));
+        return this;
+    }
+
+    public void waitForConfirmationTooltipToDisappears() {
+        confirmationalToolTip.waitUntil(Condition.disappear, 20000);
+    }
+
+//    public SelenideElement informationalTooltip() {
+//        return $(By.xpath("//span[@id='link_vsm']")).waitUntil(Condition.text("View message"), 10000);
+//    }
 
     public SelenideElement getConfirmationToolTip() {
         return confirmationToolTip.waitUntil(Condition.appears, 10000);
@@ -39,9 +55,12 @@ public class InboxPage {
         return lettersPanels;
     }
 
-    public ElementsCollection getNamesOfSenders() {
-        $(By.xpath("//div[@aria-label='Primary']")).waitUntil(Condition.appears, 5000);
-        return inboxSendersName;
+    public void checkNameOfSender(String name) {
+//        $(By.xpath("//div[@aria-label='Primary']")).waitUntil(Condition.appears, 15000);
+        inboxSendersName
+                .filter(Condition.text(name)).first()
+                .waitUntil(Condition.appears, 10000)
+                .shouldHave(Condition.text(name));
     }
 
     public ContextMenu contextClickByLetterSubject(String subject) {
@@ -86,10 +105,6 @@ public class InboxPage {
     public SelenideElement getLetterByItsSubject(String subject) {
         return inboxTitlesOfSubjects.filter(Condition.text(subject)).first()
                 .waitUntil(Condition.appears, 15000);
-    }
-
-    public SelenideElement informationalTooltip() {
-        return $(By.xpath("//span[@id='link_vsm']")).waitUntil(Condition.text("View message"), 10000);
     }
 
     public InboxPage clickOnGoogleAccountButton() {

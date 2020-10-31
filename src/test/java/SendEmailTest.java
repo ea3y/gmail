@@ -5,53 +5,50 @@ import com.google.pageobject.pages.*;
 import com.google.pageobject.panels.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.InvalidSelectorException;
 
 import static com.codeborne.selenide.Selenide.*;
 
 public class SendEmailTest {
+
+    final Faker faker = new Faker();
 
     @BeforeAll
     static void beforeTests() {
 
         open("https://accounts.google.com/signin/v2/identifier?service=mail");
         final SignInPage signIn = page(SignInPage.class);
-        final WelcomePage welcomePage = page(WelcomePage.class);
 
-        signIn.setEmail("automation192020").clickNextButton(); // new mail vistaja20@gmail.com
-        welcomePage.setPassword("gfhjkzytn123").clickNextButton();
+        signIn.setEmail("automation192020").setPassword("gfhjkzytn123");
     }
 
     @Test
     void sendEmail() {
+        final SignInPage signIn = page(SignInPage.class);
         final InboxPage inboxPage = page(InboxPage.class);
         final LeftSidePanel leftSidePanel = page(LeftSidePanel.class);
         final NewMessagePopUp newMessagePopUp = page(NewMessagePopUp.class);
-        final ContextMenu contexMenu = page(ContextMenu.class);
         final MailToolPanel mailToolPanel = page(MailToolPanel.class);
-        final Faker faker = new Faker();
+        final GoogleAccountPanel googleAccountPanel = page(GoogleAccountPanel.class);
 
         String letterSubject = faker.book().title();
         String letterBody = faker.shakespeare().asYouLikeItQuote();
         leftSidePanel.composeButtonClick();
-        newMessagePopUp
-                .setRecipientEmail("automation192020@gmail.com")
-                .setSubject(letterSubject)
-                .setMessage(letterBody)
-                .clickSendButton();
-        inboxPage.informationalTooltip().shouldHave(Condition.exactText("View message"));
-        inboxPage.getNamesOfSenders().shouldHave(CollectionCondition.texts("me"));
-        inboxPage.setCheckboxByLetterSubject(letterSubject,true)
-                .clickOnDeleteButton()
-                .getConfirmationToolTip()
-                .shouldHave(Condition.text("Conversation moved to Bin"))
-                .waitUntil(Condition.disappear, 15000);
+        newMessagePopUp.sentMessage("vistaja20@gmail.com", letterSubject, letterBody);
+        inboxPage.checkConfirmationTooltipText("Message sent.");
+        inboxPage.clickOnGoogleAccountButton();
+        googleAccountPanel.clickOnAddAnotherAccountButton();
+        switchTo().window("Gmail");
+        signIn.setEmail("vistaja20@gmail.com").setPassword("gfhjkzytn123");
+        mailToolPanel.clickOnRefreshButton();
+        inboxPage.checkNameOfSender("Autom Ation");
+        inboxPage.setCheckboxByLetterSubject(letterSubject,true).clickOnDeleteButton()
+                .checkConfirmationTooltipText("Conversation moved to Bin")
+                .waitForConfirmationTooltipToDisappears();
     }
 
     @Test
     void replyToLetter() {
         final SignInPage signIn = page(SignInPage.class);
-        final WelcomePage welcomePage = page(WelcomePage.class);
         final InboxPage inboxPage = page(InboxPage.class);
         final LeftSidePanel leftSidePanel = page(LeftSidePanel.class);
         final NewMessagePopUp newMessagePopUp = page(NewMessagePopUp.class);
@@ -59,19 +56,17 @@ public class SendEmailTest {
         final GoogleAccountPanel googleAccountPanel = page(GoogleAccountPanel.class);
         final MailToolPanel mailToolPanel = page(MailToolPanel.class);
         final MessagePage messagePage = page(MessagePage.class);
-        final Faker faker = new Faker();
 
         String letterSubject = faker.book().title();
         String letterBody = faker.shakespeare().asYouLikeItQuote();
         String replyLetterBody = faker.chuckNorris().fact();
         leftSidePanel.composeButtonClick();
         newMessagePopUp.sentMessage("vistaja20@gmail.com", letterSubject, letterBody);
-        inboxPage.informationalTooltip().shouldHave(Condition.exactText("View message"));
+        inboxPage.checkConfirmationTooltipText("Sending...");
         inboxPage.clickOnGoogleAccountButton();
         googleAccountPanel.clickOnAddAnotherAccountButton();
         switchTo().window("Gmail");
-        signIn.setEmail("vistaja20@gmail.com").clickNextButton();
-        welcomePage.setPassword("gfhjkzytn123").clickNextButton();
+        signIn.setEmail("vistaja20@gmail.com").setPassword("gfhjkzytn123");
         mailToolPanel
                 .clickOnRefreshButton()
                 .contextClickByLetterSubject(letterSubject)
@@ -79,9 +74,9 @@ public class SendEmailTest {
         newMessagePopUp
                 .setMessage(replyLetterBody)
                 .clickSendButton();
-        inboxPage.getConfirmationToolTip().shouldHave(Condition.exactText("Message sent."));
+        inboxPage.checkConfirmationTooltipText("Message sent.");    //getConfirmationToolTip().shouldHave(Condition.exactText("Message sent."));
         inboxPage.clickOnGoogleAccountButton();
-        googleAccountPanel.clickOnAccountByEmail("automation192020@gmail.com");
+        googleAccountPanel.selectAccountByEmail("automation192020@gmail.com");
         switchTo().window(2);
         mailToolPanel
                 .clickOnRefreshButton()
@@ -94,30 +89,24 @@ public class SendEmailTest {
     void markLetterAsStarred() {
         final InboxPage inboxPage = page(InboxPage.class);
         final SignInPage signIn = page(SignInPage.class);
-        final WelcomePage welcomePage = page(WelcomePage.class);
         final LeftSidePanel leftSidePanel = page(LeftSidePanel.class);
         final NewMessagePopUp newMessagePopUp = page(NewMessagePopUp.class);
         final StarredPage starredPage = page(StarredPage.class);
         final GoogleAccountPanel googleAccountPanel = page(GoogleAccountPanel.class);
         final MailToolPanel mailToolPanel = page(MailToolPanel.class);
-        final Faker faker = new Faker();
 
         String letterSubject = faker.book().title();
         String letterBody = faker.shakespeare().asYouLikeItQuote();
         leftSidePanel.composeButtonClick();
-        newMessagePopUp
-                .setRecipientEmail("vistaja20@gmail.com")
-                .setSubject(letterSubject)
-                .setMessage(letterBody)
-                .clickSendButton();
+        newMessagePopUp.sentMessage("vistaja20@gmail.com", letterSubject, letterBody);
         inboxPage.clickOnGoogleAccountButton();
         googleAccountPanel.clickOnAddAnotherAccountButton();
         switchTo().window(1);
-        signIn.setEmail("vistaja20@gmail.com").clickNextButton();
-        welcomePage.setPassword("gfhjkzytn123").clickNextButton();
+        signIn.setEmail("vistaja20@gmail.com").setPassword("gfhjkzytn123");
         mailToolPanel.clickOnRefreshButton()
                 .setStarByLetterSubject(letterSubject, true);
         leftSidePanel.clickStarredButton();
+
         inboxPage.getSubjects().shouldHave(CollectionCondition.texts(letterSubject));
         inboxPage.setStarByLetterSubject(letterSubject, false);
         starredPage.getInformationalText().shouldHave(Condition.exactText("No starred messages. " +
@@ -144,7 +133,6 @@ public class SendEmailTest {
         final NewMessagePopUp newMessagePopUp = page(NewMessagePopUp.class);
         final MailToolPanel mailToolPanel = page(MailToolPanel.class);
         final DraftPage draftPage = page(DraftPage.class);
-        final Faker faker = new Faker();
 
         String letterSubject = faker.book().title();
         String letterBody = faker.shakespeare().asYouLikeItQuote();

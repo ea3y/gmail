@@ -13,10 +13,11 @@ public class WelcomePage {
 
     public WelcomePage setPassword(String password) {
         passwordInput.waitUntil(Condition.appears, 5000).setValue(password);
+        nextBtn.waitUntil(Condition.appears, 5000).click();
         return this;
     }
 
-    public void clickNextButton() {
-        nextBtn.waitUntil(Condition.appears, 5000).click();
-    }
+//    public void clickNextButton() {
+//        nextBtn.waitUntil(Condition.appears, 5000).click();
+//    }
 }

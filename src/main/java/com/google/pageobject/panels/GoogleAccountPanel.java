@@ -18,7 +18,7 @@ public class GoogleAccountPanel {
         addAnotherAccountButton.waitUntil(Condition.appears, 5000).click();
     }
 
-    public void clickOnAccountByEmail(String email) {
+    public void selectAccountByEmail(String email) {
         accounts.filter(Condition.text(email)).first()
                 .waitUntil(Condition.appears, 10000).click();
     }

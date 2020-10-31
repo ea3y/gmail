@@ -1,5 +1,6 @@
 package com.google.pageobject.pages;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
@@ -30,6 +31,6 @@ public class MessagePage {
     }
 
     public ElementsCollection getMessagePanels() {
-        return messagePanels;
+        return messagePanels.filter(Condition.appears);
     }
 }

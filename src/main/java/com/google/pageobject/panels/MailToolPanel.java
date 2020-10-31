@@ -3,8 +3,10 @@ package com.google.pageobject.panels;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import com.google.pageobject.pages.InboxPage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 
+import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.page;
 
 public class MailToolPanel {
@@ -19,6 +21,7 @@ public class MailToolPanel {
 
     public InboxPage clickOnRefreshButton() {
         refreshButton.waitUntil(Condition.appears, 10000).click();
+        $(By.xpath("//div[@class='vh']//span[text()='Loading...']")).waitUntil(Condition.disappears, 10000);
         return page(InboxPage.class);
     }
 
