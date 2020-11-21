@@ -1,25 +1,28 @@
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.github.javafaker.Faker;
-import com.google.pageobject.pages.*;
-import com.google.pageobject.panels.*;
+import com.google.web.pages.*;
+import com.google.web.panels.*;
+import com.google.web.table.LettersTable;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Selenide.*;
+import static com.google.web.common.AbstractPage.openPageAt;
 
 public class SendEmailTest {
 
     final Faker faker = new Faker();
 
-    @BeforeAll
-    static void beforeTests() {
+//    @BeforeAll
+//    static void beforeTests() {
+//
+//        open("https://accounts.google.com/signin/v2/identifier?service=mail");
+//        final SignInPage signIn = page(SignInPage.class);
 
-        open("https://accounts.google.com/signin/v2/identifier?service=mail");
-        final SignInPage signIn = page(SignInPage.class);
-
-        signIn.setEmail("automation192020").setPassword("gfhjkzytn123");
-    }
+//        signIn.setCredentialsAndSignIn("vistaja20@gmail.com", "gfhjkzytn123");
+//        signIn.setCredentialsAndSignIn("automation192020", "gfhjkzytn123");
+//    }
 
     @Test
     void sendEmail() {
@@ -38,13 +41,33 @@ public class SendEmailTest {
         inboxPage.clickOnGoogleAccountButton();
         googleAccountPanel.clickOnAddAnotherAccountButton();
         switchTo().window("Gmail");
-        signIn.setEmail("vistaja20@gmail.com").setPassword("gfhjkzytn123");
+        signIn.setCredentialsAndSignIn("vistaja20@gmail.com", "gfhjkzytn123");
         mailToolPanel.clickOnRefreshButton();
         inboxPage.checkNameOfSender("Autom Ation");
         inboxPage.setCheckboxByLetterSubject(letterSubject,true).clickOnDeleteButton()
                 .checkConfirmationTooltipText("Conversation moved to Bin")
                 .waitForConfirmationTooltipToDisappears();
     }
+
+
+
+
+    @Test
+    void sendEmailV2() {
+//        GmailLetterListPanel letterListPanel = page(GmailLetterListPanel.class);
+//        letterListPanel.getLettersTable();
+
+        SignInPage signInPage = (SignInPage) openPageAt(SignInPage.class);
+        MainPage mainPage = signInPage.setCredentialsAndSignIn("vistaja20@gmail.com", "gfhjkzytn123");
+
+        LettersTable lettersTable = mainPage
+                .getLetterListPanel()
+                .getLettersTable();
+    }
+
+
+
+
 
     @Test
     void replyToLetter() {
@@ -66,7 +89,7 @@ public class SendEmailTest {
         inboxPage.clickOnGoogleAccountButton();
         googleAccountPanel.clickOnAddAnotherAccountButton();
         switchTo().window("Gmail");
-        signIn.setEmail("vistaja20@gmail.com").setPassword("gfhjkzytn123");
+        signIn.setCredentialsAndSignIn("vistaja20@gmail.com", "gfhjkzytn123");
         mailToolPanel
                 .clickOnRefreshButton()
                 .contextClickByLetterSubject(letterSubject)
@@ -102,7 +125,7 @@ public class SendEmailTest {
         inboxPage.clickOnGoogleAccountButton();
         googleAccountPanel.clickOnAddAnotherAccountButton();
         switchTo().window(1);
-        signIn.setEmail("vistaja20@gmail.com").setPassword("gfhjkzytn123");
+        signIn.setCredentialsAndSignIn("vistaja20@gmail.com", "gfhjkzytn123");
         mailToolPanel.clickOnRefreshButton()
                 .setStarByLetterSubject(letterSubject, true);
         leftSidePanel.clickStarredButton();
