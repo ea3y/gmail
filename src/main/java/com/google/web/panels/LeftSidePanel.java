@@ -2,32 +2,33 @@ package com.google.web.panels;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import com.google.web.pages.MainPage;
 import org.openqa.selenium.support.FindBy;
+
+import static com.codeborne.selenide.Selenide.page;
 
 public class LeftSidePanel {
 
-    @FindBy(xpath = "//div[@jscontroller='eIu7Db']")
-    private SelenideElement composeBtn;
-    @FindBy(xpath = "//div[@data-tooltip='Sent']")
-    private SelenideElement sentButton;
-    @FindBy(xpath = "//div[@data-tooltip='Starred']")
-    private SelenideElement starredButton;
-    @FindBy(xpath = "//div[@data-tooltip='Drafts']")
-    private SelenideElement draftButton;
+    protected SelenideElement element;
 
-    public void composeButtonClick() {
-        composeBtn.waitUntil(Condition.appears, 5000).click();
+    public LeftSidePanel(SelenideElement element) {
+        this.element = element;
+    }
+
+    public void clickComposeButton() {
+        element.$x(".//div[@jscontroller='eIu7Db']").waitUntil(Condition.visible, 15000).click();
     }
 
     public void clickSentButton() {
-        sentButton.waitUntil(Condition.appears, 5000).click();
+        element.$x(".//div[@data-tooltip='Sent']").waitUntil(Condition.visible, 15000).click();
     }
 
-    public void clickStarredButton() {
-        starredButton.waitUntil(Condition.appears, 5000).click();
+    public MainPage clickStarredButton() {
+        element.$x(".//div[@data-tooltip='Starred']").waitUntil(Condition.visible, 15000).click();
+        return page(MainPage.class);
     }
 
     public void clickDraftButton() {
-        draftButton.waitUntil(Condition.appears, 5000).click();
+        element.$x(".//div[@data-tooltip='Drafts']").waitUntil(Condition.visible, 15000).click();
     }
 }

@@ -1,46 +1,36 @@
 package com.google.web.pages;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.SelenideElement;
-import com.google.core.Url;
-import com.google.web.common.AbstractPage;
-import org.openqa.selenium.support.FindBy;
+import com.codeborne.selenide.Selenide;
+import com.google.User;
+import org.openqa.selenium.By;
 
-import static com.codeborne.selenide.Selenide.page;
+import static com.codeborne.selenide.Selenide.*;
 
-@Url("https://accounts.google.com/signin/v2/identifier?service=mail")
-public class SignInPage extends AbstractPage {
-    @FindBy(id = "identifierId")
-    private SelenideElement emailOrPhoneInput;
-    @FindBy(id = "identifierNext")
-    private SelenideElement nextBtn;
-    @FindBy(name = "password")
-    private SelenideElement passwordInput;
-    @FindBy(id = "passwordNext")
-    private SelenideElement signInBtn;
+public class SignInPage {
 
-//    public void setEmailTwo(String emailOrPhone) {
-//        emailOrPhoneInput.setValue(emailOrPhone);
-//        nextBtn.waitUntil(Condition.appears, 5000).click();
-//    }
+    public static SignInPage open(){
+        return Selenide.open("/signin/v2/identifier?service=mail", SignInPage.class);
+    }
 
-    public MainPage setCredentialsAndSignIn(String email, String password) {
-        setEmail(email);
-        setPassword(password);
+    public MainPage signInAs(User user) {
+        setEmail(user.login());
+        setPassword(user.password());
         return clickSignInButton();
     }
 
-    public void setEmail(String emailOrPhone) {
-        emailOrPhoneInput.setValue(emailOrPhone);
-        nextBtn.click();
+    private void setEmail(String emailOrPhone) {
+        $x("//input[@name='identifier']").waitUntil(Condition.visible, 25000).setValue(emailOrPhone);
+//        $("#identifierId").waitUntil(Condition.visible, 7000).setValue(emailOrPhone);
+        $("#identifierNext").click();
     }
 
-    public void setPassword(String password) {
-        passwordInput.waitUntil(Condition.appears, 5000).setValue(password);
+    private void setPassword(String password) {
+        $(By.name("password")).waitUntil(Condition.appears, 5000).setValue(password);
     }
 
-    public MainPage clickSignInButton() {
-        signInBtn.waitUntil(Condition.appears, 5000).click();
+    private MainPage clickSignInButton() {
+        $("#passwordNext").waitUntil(Condition.appears, 5000).click();
         return page(MainPage.class);
     }
 }

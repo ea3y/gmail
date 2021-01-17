@@ -2,41 +2,32 @@ package com.google.web.panels;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import com.google.web.pages.InboxPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.page;
+import static com.codeborne.selenide.Selenide.*;
 
 public class MailToolPanel {
-    @FindBy(xpath = "//div[@class='aeH']//div[contains(@class, 'nu')]")
-    private static SelenideElement refreshButton;
-    @FindBy(xpath = "//div[@act='10']")
-    private static SelenideElement deleteButton;
-    @FindBy(xpath = "//div[@data-tooltip='Move to']")
-    private SelenideElement moveToButton;
-    @FindBy(xpath = "//div[@class='Bn']")
-    private SelenideElement discardDraftsButton;
 
-    public InboxPage clickOnRefreshButton() {
-        refreshButton.waitUntil(Condition.appears, 10000).click();
-        $(By.xpath("//div[@class='vh']//span[text()='Loading...']")).waitUntil(Condition.disappears, 10000);
-        return page(InboxPage.class);
+    SelenideElement element;
+
+    public MailToolPanel(SelenideElement element) {
+        this.element = element;
     }
 
-    public InboxPage clickOnDeleteButton() {
-        deleteButton.waitUntil(Condition.appears, 5000).click();
-        return page(InboxPage.class);
+    public void clickOnRefreshButton() {
+        element.$x(".//div[contains(@class, 'nu')]").waitUntil(Condition.appears, 10000).click();
+        $x("//div[@class='vh']//span[text()='Loading...']").waitUntil(Condition.disappears, 10000);
     }
 
-    public InboxPage clickOnMoveToButton() {
-        moveToButton.waitUntil(Condition.appears, 5000).click();
-        return page(InboxPage.class);
+    public MailToolPanel clickDeleteButton() {
+        element.$x(".//div[@act='10']").waitUntil(Condition.appears, 5000).click();
+        return this;
     }
 
-    public void clickOnDiscardDraftsButton() {
-        discardDraftsButton.waitUntil(Condition.appears, 5000).click();
+    public MailToolPanel setCheckBox() {
+        element.$x(".//span[@dir='ltr']").waitUntil(Condition.appears, 5000).click();
+        return this;
     }
 
 }

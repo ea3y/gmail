@@ -1,25 +1,28 @@
 package com.google.web.panels;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindBys;
+import com.google.web.pages.SignInPage;
+
+import static com.codeborne.selenide.Selenide.*;
 
 public class GoogleAccountPanel {
-    @FindBy(xpath = "//div[@aria-label='Account Information']/div[@class='gb_Vb']")
-    private SelenideElement addAnotherAccountButton;
-    @FindBy(id = "gb_71")
-    private SelenideElement signOutButton;
-    @FindBys(@FindBy(xpath = "//div[contains(@class, 'gb_Rb')]/a"))
-    private ElementsCollection accounts;
 
-    public void clickOnAddAnotherAccountButton() {
-        addAnotherAccountButton.waitUntil(Condition.appears, 5000).click();
+    SelenideElement element;
+
+    public GoogleAccountPanel(SelenideElement element) {
+        this.element = element;
+    }
+
+    public SignInPage clickOnAddAnotherAccountButton() {
+        element.$x("./div[@class='gb_Rb']")
+                .waitUntil(Condition.appears, 5000).click();
+        switchTo().window("Gmail");
+        return new SignInPage();
     }
 
     public void selectAccountByEmail(String email) {
-        accounts.filter(Condition.text(email)).first()
+        $$x("//div[contains(@class, 'gb_Rb')]/a").filter(Condition.text(email)).first()
                 .waitUntil(Condition.appears, 10000).click();
     }
 

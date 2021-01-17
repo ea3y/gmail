@@ -1,37 +1,37 @@
 package com.google.web.table;
 
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-import com.google.web.common.AbstractTable;
-import org.openqa.selenium.By;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static com.codeborne.selenide.Selenide.page;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
-public class LettersTable extends AbstractTable {
+public class LettersTable {
 
-    private List<LetterRow> tableRows;
+    private SelenideElement table;
+    private List<LetterTableRow> tableRowsList = new ArrayList<>();
 
-    public LettersTable(SelenideElement webTable) {
-        super(webTable);
+    public LettersTable(SelenideElement table) {
+        this.table = table;
+        setTableRows();
     }
 
-//    public void setCheckboxOfSpecificLetter(final String subject) {
-//        getTableRowWithSpecificSubject(subject).getCheckboxCell().click();
-//    }
+    public LetterTableRow getTheFirstRow() {
+        return tableRowsList.get(0);
+    }
 
-    @Override
+    public List<LetterTableRow> getTableRowsList() {
+        if(tableRowsList.isEmpty()) {
+            fail("There is no letters in the Inbox. FUCK!!!");
+        }
+        return tableRowsList;
+    }
+
     protected void setTableRows() {
-        List<SelenideElement> rows = table.$$(By.tagName("tr"));
-        tableRows = rows.stream().map(LetterRow::new).collect(Collectors.toList());
-    }
-
-    private LetterRow getTableRowWithSpecificSubject (final String subject) {
-        List<LetterRow> filteredTableRows = tableRows.stream()
-                .filter(r -> r.getSubjectCell().getText().equals(subject)).collect(Collectors.toList());
-        assertThat(filteredTableRows.size()).isEqualTo(1);
-        return filteredTableRows.get(0);
+        ElementsCollection rows = table.waitUntil(Condition.visible, 5000).$$x("./tr");
+        rows.forEach(elem -> tableRowsList.add(new LetterTableRow(elem)));
     }
 }

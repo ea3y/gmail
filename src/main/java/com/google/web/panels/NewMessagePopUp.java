@@ -6,68 +6,50 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$x;
 
 public class NewMessagePopUp {
 
-    @FindBy(xpath = "//textarea[@name='to']")
-    private SelenideElement toTextarea;
-    @FindBy(xpath = "//input[@name='subjectbox']")
-    private SelenideElement subjectInput;
-    @FindBy(xpath = "//div[@aria-label='Message Body']")
-    private SelenideElement messageTextarea;
-    @FindBy(xpath = "//div[contains(@data-tooltip, 'Send')]")
-    private SelenideElement sendBtn;
-    @FindBy(xpath = "//td[@class='Hm']")
-    private SelenideElement popupControlsPanel;
+    private final SelenideElement toRecipientTextarea;
+    private final SelenideElement subjectInput;
+    private final SelenideElement messageTextarea;
+    private final SelenideElement sendBtn;
 
-    @FindBy(xpath = "//div[@class='Kj-JD' and @role='alertdialog']")
-    private SelenideElement errorPopup;
+    public static class Builder {
+        private final SelenideElement toRecipientTextarea = $x("//textarea[@name='to']");
+        private final SelenideElement subjectInput = $x("//input[@name='subjectbox']");
+        private final SelenideElement messageTextarea = $x("//div[@aria-label='Message Body']");
+        private final SelenideElement sendBtn = $x("//div[contains(@data-tooltip, 'Send')]");
 
-    public void sentMessage(String email, String subject, String message) {
-        setRecipientEmail(email)
-                .setSubject(subject)
-                .setMessage(message)
-                .clickSendButton();
+//        public Builder(String email) {
+//            this.toRecipientTextarea.waitUntil(Condition.appears, 10000).setValue(email);
+//        }
+
+        public Builder setRecipient(String recipient) {
+            toRecipientTextarea.waitUntil(Condition.appears, 5000).setValue(recipient);
+            return this;
+        }
+
+        public Builder setSubject(String subject) {
+            subjectInput.waitUntil(Condition.appears, 5000).setValue(subject);
+            return this;
+        }
+
+        public Builder setMessage(String message) {
+            messageTextarea.waitUntil(Condition.appears, 5000).setValue(message);
+            return this;
+        }
+
+        public NewMessagePopUp send() {
+            sendBtn.waitUntil(Condition.appears, 5000).click();
+            return new NewMessagePopUp(this);
+        }
     }
 
-
-    public NewMessagePopUp setRecipientEmail(String email) {
-        toTextarea.waitUntil(Condition.appears, 10000).setValue(email);
-        return this;
-    }
-
-    public NewMessagePopUp setSubject(String subject) {
-        subjectInput
-                .waitUntil(Condition.appears, 5000)
-                .setValue(subject);
-        return this;
-    }
-
-    public NewMessagePopUp setMessage(String message) {
-        messageTextarea
-                .waitUntil(Condition.appears, 5000)
-                .setValue(message);
-        return this;
-    }
-
-    public void clickSendButton() {
-        sendBtn.waitUntil(Condition.appears, 5000).click();
-    }
-
-    public SelenideElement getErrorPopup() {
-        return errorPopup;
-    }
-
-    public SelenideElement getTextOfErrorPopup() {
-        return getErrorPopup().find(By.xpath("./div[@class='Kj-JD-Jz']"));
-    }
-
-    public void clickOnClosePopupButton() {
-        popupControlsPanel.find(By.xpath("./img[@class='Ha']"))
-                .waitUntil(Condition.appears, 5000).click();
-    }
-
-    public SelenideElement getTextOfPanel() {
-        return $(By.xpath("//div[@class='aYF']")).waitUntil(Condition.appears, 10000);
+    public NewMessagePopUp(Builder builder) {
+        toRecipientTextarea = builder.toRecipientTextarea;
+        subjectInput = builder.subjectInput;
+        messageTextarea = builder.messageTextarea;
+        sendBtn = builder.sendBtn;
     }
 }
