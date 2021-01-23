@@ -21,10 +21,6 @@ public class NewMessagePopUp {
         private final SelenideElement messageTextarea = $x("//div[@aria-label='Message Body']");
         private final SelenideElement sendBtn = $x("//div[contains(@data-tooltip, 'Send')]");
 
-//        public Builder(String email) {
-//            this.toRecipientTextarea.waitUntil(Condition.appears, 10000).setValue(email);
-//        }
-
         public Builder setRecipient(String recipient) {
             toRecipientTextarea.waitUntil(Condition.appears, 5000).setValue(recipient);
             return this;

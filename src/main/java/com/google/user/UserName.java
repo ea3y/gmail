@@ -1,4 +1,4 @@
-package com.google;
+package com.google.user;
 
 public enum UserName {
     JAVISTA,

@@ -1,7 +1,7 @@
 import com.codeborne.selenide.Configuration;
 import com.github.javafaker.Faker;
-import com.google.UserFactory;
-import com.google.UserName;
+import com.google.user.UserFactory;
+import com.google.user.UserName;
 import com.google.web.pages.MainPage;
 import com.google.web.pages.SignInPage;
 import com.google.web.panels.NewMessagePopUp;
@@ -44,13 +44,12 @@ public class BuilderEmailTest {
 
         assertAll(
                 () -> assertEquals(
-                        "Ja Vista", mainPage.getLetterListPanel().getLettersTable().getTheFirstRow().getTextOfSenderCell()),
+                        "Ja Vista",
+                        mainPage.getLetterListPanel().getLettersTable().getTheFirstRow().getTextOfSenderCell()),
                 () -> assertEquals(
-                        letterSubject, mainPage.getLetterListPanel().getLettersTable().getTheFirstRow().getTextOfSubjectCell())
+                        letterSubject,
+                        mainPage.getLetterListPanel().getLettersTable().getTheFirstRow().getTextOfSubjectCell())
         );
-//Delete all messages (return mailbox ot the base state)
-//        mainPage.getMailToolPanel().setCheckBox().clickDeleteButton();
-//        mainPage.waitForMessageTooltipToDisappears();
     }
 
     @Test

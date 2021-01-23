@@ -2,7 +2,7 @@ package com.google.web.pages;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
-import com.google.User;
+import com.google.user.User;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selenide.*;
@@ -21,7 +21,6 @@ public class SignInPage {
 
     private void setEmail(String emailOrPhone) {
         $x("//input[@name='identifier']").waitUntil(Condition.visible, 25000).setValue(emailOrPhone);
-//        $("#identifierId").waitUntil(Condition.visible, 7000).setValue(emailOrPhone);
         $("#identifierNext").click();
     }
 

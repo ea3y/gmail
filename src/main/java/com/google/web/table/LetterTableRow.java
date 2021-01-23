@@ -49,7 +49,7 @@ public class LetterTableRow {
     }
 
     public String getStarCellAttribute() {
-        return starCell.attr("aria-label").toString();
+        return starCell.attr("aria-label");
     }
 
     public String getTextOfSenderCell() {

@@ -9,6 +9,4 @@ public class StarredPanel {
     public StarredPanel(SelenideElement element) {
         this.element = element;
     }
-
-
 }
