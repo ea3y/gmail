@@ -5,7 +5,6 @@ downloads
 .idea
 .gradle
 .allure
-*.iml
+*iml
 *.log
-!/gmailTest.iml
 src/main/resources/

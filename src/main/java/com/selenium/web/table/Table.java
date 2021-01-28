@@ -2,7 +2,6 @@ package com.selenium.web.table;
 
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-import io.qameta.allure.Attachment;
 import io.qameta.allure.Step;
 
 import java.util.ArrayList;

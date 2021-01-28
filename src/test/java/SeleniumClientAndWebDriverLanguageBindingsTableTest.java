@@ -1,5 +1,5 @@
 import com.codeborne.selenide.Selenide;
-import com.selenium.web.common.Listener;
+import com.selenium.web.common.ScreenAllureExtension;
 import com.selenium.web.pages.MainPage;
 import com.selenium.web.panels.BasicTablePanel;
 import com.selenium.web.table.Table;
@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ExtendWith({Listener.class})
+@ExtendWith({ScreenAllureExtension.class})
 public class SeleniumClientAndWebDriverLanguageBindingsTableTest {
 
     @Test
