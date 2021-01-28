@@ -1,6 +1,8 @@
 package com.selenium.web.table;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Attachment;
+import io.qameta.allure.Step;
 
 public class TableRow {
 
@@ -50,23 +52,28 @@ public class TableRow {
         return new LinkCell(linksCell);
     }
 
-    public String getLanguageCell() {
+    @Step("get text of 'Language' cell")
+    public String getTextOfLanguageCell() {
         return languageCell.getText();
     }
 
-    public String getStableVersionCell() {
+    @Step("get text of 'Stable version' cell")
+    public String getTextOfStableVersionCell() {
         return stableVersionCell.getText();
     }
 
-    public String getReleaseDateCell() {
+    @Step("get text of 'Release date' cell")
+    public String getTextOfReleaseDateCell() {
         return releaseDateCell.getText();
     }
 
-    public String getAlphaVersionCell() {
+    @Step("get text of 'Alpha version' cell")
+    public String getTextOfAlphaVersionCell() {
         return alphaVersionCell.getText();
     }
 
-    public String getAlphaReleaseDateCell() {
+    @Step("get text of 'Alpha release date' cell")
+    public String getTextOfAlphaReleaseDateCell() {
         return alphaReleaseDateCell.getText();
     }
 }
