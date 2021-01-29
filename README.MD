@@ -10,7 +10,7 @@ There is few test which covered certain functionality, such as:
 - JUnit (version 5.7.0)
 
 #Paltform
-Windows
+Windows 
 
 #Note
 Due to google security, you might not be allowed to login to my test google accounts via automation test.
