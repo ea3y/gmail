@@ -24,7 +24,7 @@ public class LettersTable {
     }
 
     public List<LetterTableRow> getTableRowsList() {
-        if(tableRowsList.isEmpty()) {
+        if (tableRowsList.isEmpty()) {
             fail("There is no letters in the Inbox. FUCK!!!");
         }
         return tableRowsList;

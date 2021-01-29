@@ -9,7 +9,7 @@ import static com.codeborne.selenide.Selenide.*;
 
 public class SignInPage {
 
-    public static SignInPage open(){
+    public static SignInPage open() {
         return Selenide.open("/signin/v2/identifier?service=mail", SignInPage.class);
     }
 

@@ -1,11 +1,10 @@
-*/target/*
+target/
 allure-results
 build/
 downloads
 .idea
 .gradle
 .allure
-*.iml
+*iml
 *.log
-!/gmailTest.iml
 src/main/resources/
