@@ -61,7 +61,7 @@ public class BuilderEmailTest {
                 .open()
                 .signInAs(UserFactory.getUser(UserName.JAVISTA));
         mainPage.getLeftSidePanel().clickComposeButton();
-        new NewMessagePopUp.Builder()       //"automation192020@gmail.com"
+        new NewMessagePopUp.Builder()
                 .setRecipient("automation192020@gmail.com")
                 .setSubject(letterSubject)
                 .setMessage(letterBody)
@@ -79,9 +79,11 @@ public class BuilderEmailTest {
 
         assertAll(
                 () -> assertEquals(
-                        letterSubject, mainPage.getLetterListPanel().getLettersTable().getTheFirstRow().getTextOfSubjectCell()),
+                        letterSubject,
+                        mainPage.getLetterListPanel().getLettersTable().getTheFirstRow().getTextOfSubjectCell()),
                 () -> assertEquals(
-                        "Starred", mainPage.getLetterListPanel().getLettersTable().getTheFirstRow().getStarCellAttribute())
+                        "Starred",
+                        mainPage.getLetterListPanel().getLettersTable().getTheFirstRow().getStarCellAttribute())
         );
     }
 }
