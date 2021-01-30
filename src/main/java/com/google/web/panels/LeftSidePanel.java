@@ -3,7 +3,6 @@ package com.google.web.panels;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import com.google.web.pages.MainPage;
-import org.openqa.selenium.support.FindBy;
 
 import static com.codeborne.selenide.Selenide.page;
 
