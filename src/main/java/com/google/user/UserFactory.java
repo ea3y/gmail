@@ -1,11 +1,18 @@
 package com.google.user;
 
+import com.google.utils.PropertyReader;
+
 public class UserFactory {
 
     public static User getUser(UserName userName) {
+
+        PropertyReader property = new PropertyReader("user.properties");
+
         return switch (userName) {
-            case JAVISTA -> new User("vistaja20@gmail.com", "gfhjkzytn123");
-            case AUTOMATION -> new User("automation192020@gmail.com", "gfhjkzytn123");
+            case JAVISTA -> new User(
+                    property.getValue("JAVISTA_EMAIL"), property.getValue("JAVISTA_PASSWORD"));
+            case AUTOMATION -> new User(
+                    property.getValue("AUTOMATION_EMAIL"), property.getValue("AUTOMATION_PASSWORD"));
         };
     }
 }
