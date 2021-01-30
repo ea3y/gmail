@@ -9,9 +9,9 @@ There is few test which covered certain functionality, such as:
 - Selenide (version 5.14.2)
 - JUnit (version 5.7.0)
 
-#Paltform
-Windows 
+# Paltform
+Windows
 
-#Note
+# Note
 Due to google security, you might not be allowed to login to my test google accounts via automation test.
 In that case, in UserFactory class (google->user) add your own google accounts.
