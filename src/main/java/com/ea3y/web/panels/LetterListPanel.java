@@ -1,8 +1,8 @@
-package com.google.web.panels;
+package com.ea3y.web.panels;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import com.google.web.table.LettersTable;
+import com.ea3y.web.table.LettersTable;
 
 public class LetterListPanel {
 

@@ -1,4 +1,4 @@
-package com.google.web.pages;
+package com.ea3y.web.pages;
 
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;

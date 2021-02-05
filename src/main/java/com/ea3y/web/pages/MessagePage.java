@@ -1,4 +1,4 @@
-package com.google.web.pages;
+package com.ea3y.web.pages;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;

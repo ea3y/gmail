@@ -1,4 +1,4 @@
-package com.google.web.panels;
+package com.ea3y.web.panels;
 
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;

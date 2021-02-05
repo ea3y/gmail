@@ -1,8 +1,8 @@
-package com.google.web.table;
+package com.ea3y.web.table;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import com.google.web.panels.LetterContextMenuPanel;
+import com.ea3y.web.panels.LetterContextMenuPanel;
 
 import java.util.Objects;
 

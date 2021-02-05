@@ -1,4 +1,4 @@
-package com.google.web.table;
+package com.ea3y.web.table;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;

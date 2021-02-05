@@ -1,8 +1,8 @@
-package com.google.web.panels;
+package com.ea3y.web.panels;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import com.google.web.pages.MainPage;
+import com.ea3y.web.pages.MainPage;
 
 import static com.codeborne.selenide.Selenide.page;
 

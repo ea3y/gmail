@@ -1,6 +1,6 @@
-package com.google.user;
+package com.ea3y.user;
 
-import com.google.utils.PropertyReader;
+import com.ea3y.utils.PropertyReader;
 
 public class UserFactory {
 

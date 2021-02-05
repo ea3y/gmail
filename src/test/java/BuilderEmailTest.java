@@ -1,10 +1,10 @@
 import com.codeborne.selenide.Configuration;
 import com.github.javafaker.Faker;
-import com.google.user.UserFactory;
-import com.google.user.UserName;
-import com.google.web.pages.MainPage;
-import com.google.web.pages.SignInPage;
-import com.google.web.panels.NewMessagePopUp;
+import com.ea3y.user.UserFactory;
+import com.ea3y.user.UserName;
+import com.ea3y.web.pages.MainPage;
+import com.ea3y.web.pages.SignInPage;
+import com.ea3y.web.panels.NewMessagePopUp;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

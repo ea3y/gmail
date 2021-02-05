@@ -1,10 +1,10 @@
-package com.google.web.pages;
+package com.ea3y.web.pages;
 
 import com.codeborne.selenide.Condition;
-import com.google.web.panels.LeftSidePanel;
-import com.google.web.panels.LetterListPanel;
-import com.google.web.panels.MailToolPanel;
-import com.google.web.panels.MainToolBarPanel;
+import com.ea3y.web.panels.LeftSidePanel;
+import com.ea3y.web.panels.LetterListPanel;
+import com.ea3y.web.panels.MailToolPanel;
+import com.ea3y.web.panels.MainToolBarPanel;
 
 import static com.codeborne.selenide.Selenide.$x;
 

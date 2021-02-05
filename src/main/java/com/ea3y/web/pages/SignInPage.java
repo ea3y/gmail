@@ -1,8 +1,8 @@
-package com.google.web.pages;
+package com.ea3y.web.pages;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
-import com.google.user.User;
+import com.ea3y.user.User;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selenide.*;
@@ -30,6 +30,6 @@ public class SignInPage {
 
     private MainPage clickSignInButton() {
         $("#passwordNext").waitUntil(Condition.appears, 5000).click();
-        return page(MainPage.class);
+        return Selenide.page(MainPage.class);
     }
 }

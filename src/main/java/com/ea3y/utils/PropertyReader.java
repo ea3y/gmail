@@ -1,4 +1,4 @@
-package com.google.utils;
+package com.ea3y.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
