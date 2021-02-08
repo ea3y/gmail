@@ -5,12 +5,9 @@ There is few test which covered certain functionality, such as:
 - check if letter, which was marked as 'starred' goes to the correct section of the aplication.
 
 # Technologies
-- Java (version 15.0.1)
-- Selenide (version 5.14.2)
-- JUnit (version 5.7.0)
-
-# Paltform
-Windows
+- Java
+- Selenide
+- JUnit (Jupiter)
 
 # Note
 Due to google security, you might not be allowed to login to my test google accounts via automation test.

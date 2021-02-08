@@ -2,7 +2,8 @@ package com.ea3y.web.pages;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
-import com.ea3y.user.User;
+import com.ea3y.user.UserName;
+import com.ea3y.utils.PropertyReader;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selenide.*;
@@ -13,18 +14,20 @@ public class SignInPage {
         return Selenide.open("/signin/v2/identifier?service=mail", SignInPage.class);
     }
 
-    public MainPage signInAs(User user) {
-        setEmail(user.login());
-        setPassword(user.password());
+    public MainPage signInAs(UserName userName) {
+        PropertyReader property = new PropertyReader("user.properties");
+        switch (userName) {
+            case JAVISTA ->
+                    setCredentials(property.getValue("javista.email"), property.getValue("javista.password"));
+            case AUTOMATION -> setCredentials(
+                    property.getValue("automation.email"), property.getValue("automation.password"));
+        }
         return clickSignInButton();
     }
 
-    private void setEmail(String emailOrPhone) {
+    private void setCredentials(String emailOrPhone, String password) {
         $x("//input[@name='identifier']").waitUntil(Condition.visible, 25000).setValue(emailOrPhone);
         $("#identifierNext").click();
-    }
-
-    private void setPassword(String password) {
         $(By.name("password")).waitUntil(Condition.appears, 5000).setValue(password);
     }
 

@@ -5,14 +5,12 @@ import com.ea3y.utils.PropertyReader;
 public class UserFactory {
 
     public static User getUser(UserName userName) {
-
         PropertyReader property = new PropertyReader("user.properties");
-
         return switch (userName) {
             case JAVISTA -> new User(
-                    property.getValue("JAVISTA_EMAIL"), property.getValue("JAVISTA_PASSWORD"));
+                    property.getValue("javista.email"), property.getValue("javista.password"));
             case AUTOMATION -> new User(
-                    property.getValue("AUTOMATION_EMAIL"), property.getValue("AUTOMATION_PASSWORD"));
+                    property.getValue("automation.email"), property.getValue("automation.password"));
         };
     }
 }

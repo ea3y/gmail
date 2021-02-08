@@ -2,6 +2,7 @@ package com.ea3y.web.panels;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import com.ea3y.user.User;
 
 import static com.codeborne.selenide.Selenide.$x;
 
